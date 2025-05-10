@@ -67,22 +67,51 @@ tmpfile=$(mktemp --tmpdir=.)
 cp -p $origin $tmpfile
 cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
 
+origin="./_traefik-role.yaml"
+destination="./data/charts/traefik-role.yaml"
+tmpfile=$(mktemp --tmpdir=.)
+cp -p $origin $tmpfile
+cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
+
+origin="./_traefik-account.yaml"
+destination="./data/charts/traefik-account.yaml"
+tmpfile=$(mktemp --tmpdir=.)
+cp -p $origin $tmpfile
+cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
+
+origin="./_traefik-binding.yaml"
+destination="./data/charts/traefik-binding.yaml"
+tmpfile=$(mktemp --tmpdir=.)
+cp -p $origin $tmpfile
+cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
+
 if [ "$JANUS_ENV" == "prod" ]; then
   log "dp::janus::ci::(busy):: Initiating Production Traefik settings."
   origin="./_traefik-prod.yaml"
-  destination="./data/manifests/traefik.yaml"
+  destination="./data/charts/traefik.yaml"
   tmpfile=$(mktemp --tmpdir=.)
   cp -p $origin $tmpfile
   cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
 else
   log "dp::janus::ci::(busy):: Initiating local Traefik settings."
   origin="./_traefik-local.yaml"
-  destination="./data/manifests/traefik.yaml"
+  destination="./data/charts/traefik.yaml"
+  tmpfile=$(mktemp --tmpdir=.)
+  cp -p $origin $tmpfile
+  cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
+
+  origin="./_whoami.yaml"
+  destination="./data/charts/whoami.yaml"
   tmpfile=$(mktemp --tmpdir=.)
   cp -p $origin $tmpfile
   cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
 fi
 
+origin="./_traefik-services.yaml"
+destination="./data/charts/traefik-services.yaml"
+tmpfile=$(mktemp --tmpdir=.)
+cp -p $origin $tmpfile
+cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
 
 
 log "dp::janus::${JANUS_ENV}::ingress::(idle)::all good." 0

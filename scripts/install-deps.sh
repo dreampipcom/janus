@@ -51,6 +51,7 @@ if [[ "$(which kompose)" == "" || "$(which k3s)" == "" ]]; then
     systemctl restart k3s
     helm repo add traefik https://traefik.github.io/charts
     helm repo update
+    echo "$(minikube ip) ${JANUS_HOSTNAME}" | sudo tee -a /etc/hosts
 fi
 else
 	log "dp::janus::ci::(skip)::skipped installing deps."
