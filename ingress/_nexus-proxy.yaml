@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: euterpe-proxy
+  namespace: janus
+spec:
+  type: ExternalName
+  externalName: azure-cast-service.euterpe.svc.cluster.local
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP

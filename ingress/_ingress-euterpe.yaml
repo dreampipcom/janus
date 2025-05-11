@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-euterpe
+  namespace: janus
+  labels:
+    app: mopidy
+  annotations:
+    ingress.kubernetes.io/force-hsts: "true"
+    ingress.kubernetes.io/hsts-max-age: "315360000"
+    ingress.kubernetes.io/hsts-preload: "true"
+    ingress.kubernetes.io/ssl-redirect: "true"
+    ingress.kubernetes.io/hsts-include-subdomains: "true"
+    ingress.kubernetes.io/auth-type: basic
+    ingress.kubernetes.io/auth-secret: mopidy
+spec:
+  rules:
+  - host: radio.mydomain.com
+    http:
+      paths:
+      - path: /radio
+        backend:
+          serviceName: euterpe-proxy-web
+          servicePort: mopidy
+      - path: /radio/listen
+        backend:
+          serviceName: euterpe-proxy-server
+          servicePort: icecast
+---
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: mopidy
+  labels:
+    app: mopidy
+stringData:
+  htpasswd: |-
+    ${EUTERPE_USERNAME}:${EUTERPE_PASSWORD}

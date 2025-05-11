@@ -1,31 +1,46 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: prometheus-deployment
   namespace: janus
-
+  labels:
+    app: prometheus-server
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: prometheus
-  replicas: 1
+      app: prometheus-server
   template:
     metadata:
       labels:
-        app: prometheus
+        app: prometheus-server
     spec:
-      serviceAccountName: prometheus-account
       containers:
-      - name: prometheus
-        image: prom/prometheus:v2.1.0
-        ports:
-        - containerPort: 9090
-          name: default
-        volumeMounts:
-        - name: prometheus-config-volume
-          mountPath: /etc/prometheus
+        - name: prometheus
+          image: prom/prometheus
+          args:
+            - "--storage.tsdb.retention.time=12h"
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.path=/prometheus/"
+          ports:
+            - containerPort: 9090
+          resources:
+            requests:
+              cpu: 500m
+              memory: 500M
+            limits:
+              cpu: 1
+              memory: 1Gi
+          volumeMounts:
+            - name: prometheus-config-volume
+              mountPath: /etc/prometheus/
+            - name: prometheus-storage-volume
+              mountPath: /prometheus/
       volumes:
-      - name: prometheus-config-volume
-        configMap:
-         name: prometheus-config
+        - name: prometheus-config-volume
+          configMap:
+            defaultMode: 420
+            name: prometheus-server-conf
+  
+        - name: prometheus-storage-volume
+          emptyDir: {}

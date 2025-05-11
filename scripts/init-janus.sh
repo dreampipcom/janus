@@ -139,5 +139,17 @@ tmpfile=$(mktemp --tmpdir=.)
 cp -p $origin $tmpfile
 cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
 
+origin="./_nexus-proxy.yaml"
+destination="./data/charts/nexus-proxy.yaml"
+tmpfile=$(mktemp --tmpdir=.)
+cp -p $origin $tmpfile
+cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
+
+origin="./_ingress-euterpe.yaml"
+destination="./data/charts/ingress-euterpe.yaml"
+tmpfile=$(mktemp --tmpdir=.)
+cp -p $origin $tmpfile
+cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
+
 
 log "dp::janus::${JANUS_ENV}::ingress::(idle)::all good." 0
