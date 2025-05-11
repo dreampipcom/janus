@@ -60,8 +60,7 @@ log "dp::janus::${JANUS_ENV}::k8s::(busy)::Initiating Kubernetes: ${JANUS_ENV} e
 # k8s setup
 log "dp::janus::${JANUS_ENV}::k8s::(busy):: Cleaning up previous deployment." 2
 kubectl delete all --all -n janus
-kubectl delete ingress.networking.k8s.io/traefik --namespace janus traefik
-kubectl delete ingress.networking.k8s.io/traefik --namespace janus whoami-ingress
+kubectl delete ingress.networking.k8s.io --namespace janus traefik-ingress
 rm -rf ../ingress/data
 
 # network setup

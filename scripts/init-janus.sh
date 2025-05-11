@@ -55,11 +55,6 @@ mkdir manifests
 cd $root_dir
 
 cd ../ingress
-origin="./_grafana.yaml"
-destination="./data/charts/grafana.yaml"
-tmpfile=$(mktemp --tmpdir=.)
-cp -p $origin $tmpfile
-cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
 
 origin="./_ingress.yaml"
 destination="./data/charts/ingress.yaml"
@@ -81,6 +76,12 @@ cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
 
 origin="./_traefik-binding.yaml"
 destination="./data/charts/traefik-binding.yaml"
+tmpfile=$(mktemp --tmpdir=.)
+cp -p $origin $tmpfile
+cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
+
+origin="./_traefik-services.yaml"
+destination="./data/charts/traefik-services.yaml"
 tmpfile=$(mktemp --tmpdir=.)
 cp -p $origin $tmpfile
 cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
@@ -107,8 +108,33 @@ else
   cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
 fi
 
-origin="./_traefik-services.yaml"
-destination="./data/charts/traefik-services.yaml"
+
+origin="./_prometheus-config.yaml"
+destination="./data/charts/prometheus-config.yaml"
+tmpfile=$(mktemp --tmpdir=.)
+cp -p $origin $tmpfile
+cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
+
+origin="./_prometheus-role.yaml"
+destination="./data/charts/prometheus-role.yaml"
+tmpfile=$(mktemp --tmpdir=.)
+cp -p $origin $tmpfile
+cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
+
+origin="./_prometheus-service.yaml"
+destination="./data/charts/prometheus-service.yaml"
+tmpfile=$(mktemp --tmpdir=.)
+cp -p $origin $tmpfile
+cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
+
+origin="./_prometheus.yaml"
+destination="./data/charts/prometheus.yaml"
+tmpfile=$(mktemp --tmpdir=.)
+cp -p $origin $tmpfile
+cat $origin | envsubst > $tmpfile && mv $tmpfile $destination
+
+origin="./_grafana.yaml"
+destination="./data/charts/grafana.yaml"
 tmpfile=$(mktemp --tmpdir=.)
 cp -p $origin $tmpfile
 cat $origin | envsubst > $tmpfile && mv $tmpfile $destination

@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-deployment
+  namespace: janus
+
+spec:
+  selector:
+    matchLabels:
+      app: prometheus
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      serviceAccountName: prometheus-account
+      containers:
+      - name: prometheus
+        image: prom/prometheus:v2.1.0
+        ports:
+        - containerPort: 9090
+          name: default
+        volumeMounts:
+        - name: prometheus-config-volume
+          mountPath: /etc/prometheus
+      volumes:
+      - name: prometheus-config-volume
+        configMap:
+         name: prometheus-config

@@ -16,7 +16,7 @@ kind: Deployment
 metadata:
   labels:
     app: grafana
-  name: grafana
+  name: grafana-deployment
   namespace: janus
 spec:
   selector:
@@ -35,6 +35,13 @@ spec:
         - name: grafana
           image: grafana/grafana:latest
           imagePullPolicy: IfNotPresent
+          env:
+            - name: GF_SERVER_ROOT_URL
+              value: "%(protocol)s://%(domain)s:%(http_port)s/monitor"
+            - name: GF_SERVER_DOMAIN
+              value: "${JANUS_HOSTNAME}"
+            - name: GF_SERVER_SERVE_FROM_SUB_PATH
+              value: "true"
           ports:
             - containerPort: 3000
               name: http-grafana
@@ -72,7 +79,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: grafana
+  name: grafana-service
   namespace: janus
 spec:
   ports:

@@ -1,8 +1,8 @@
----
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: whoami
+  name: whoami-deployment
+  namespace: janus
   labels:
     app: whoami
 
@@ -26,7 +26,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: whoami
+  name: whoami-service
+  namespace: janus
 
 spec:
   ports:
